@@ -39,7 +39,7 @@ namespace EnemyLoot.Patches
             GameObject gameObject = UnityEngine.Object.Instantiate<GameObject>(egg.spawnPrefab, __instance.transform.position + new Vector3(0f, 3f, 0f), Quaternion.identity);
             gameObject.GetComponentInChildren<GrabbableObject>().fallTime = 0f;
 
-            int scrapValue = new System.Random().Next(150, 250);
+            int scrapValue = new System.Random().Next(300, 350);
             gameObject.GetComponentInChildren<GrabbableObject>().SetScrapValue(scrapValue);
             gameObject.GetComponentInChildren<NetworkObject>().Spawn(false);
             RoundManager.Instance.SyncScrapValuesClientRpc(new NetworkObjectReference[]

@@ -72,12 +72,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Behaviours\BlackOrbBehaviour.cs" />
     <Compile Include="Behaviours\GuiltyGearCaseBehaviour.cs" />
+    <Compile Include="Behaviours\WhiteOrbBehaviour.cs" />
     <Compile Include="Patches\BrakenDrop.cs" />
     <Compile Include="Patches\HawkDrop.cs" />
     <Compile Include="Patches\HoarderBugDrop.cs" />
     <Compile Include="Patches\MaskedDrop.cs" />
-    <Compile Include="Patches\SnairFleeDrop.cs" />
+    <Compile Include="Patches\SnairFleaDrop.cs" />
     <Compile Include="Patches\SpiderDrop.cs" />
     <Compile Include="Plugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

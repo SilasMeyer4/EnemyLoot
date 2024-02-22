@@ -21,8 +21,8 @@ namespace EnemyLoot_SilasMeyer
     public class EnemyLoot : BaseUnityPlugin
     {
         public const string modGUID = "SilasMeyer.EnemyLoot";
-        public const string modName = "Enemy Loot";
-        public const string modVersion = "1.0.0.0";
+        public const string modName = "EnemyLoot";
+        public const string modVersion = "0.1.0";
 
         private readonly Harmony harmony = new Harmony(modGUID);
 
@@ -30,7 +30,13 @@ namespace EnemyLoot_SilasMeyer
 
         public static Item spiderEgg;
         public static Item guiltyGearCase;
-        internal static AudioClip newAudio;
+        public static Item blackOrb;
+        public static Item whiteOrb;
+        internal static AudioClip guiltyGearSFX;
+        internal static AudioClip blackOrbSpawnSFX;
+        internal static AudioClip blackOrbTeleportSFX;
+        internal static AudioClip blackOrbCDSFX;
+        internal static AudioClip whiteOrbHealingSFX;
 
         internal ManualLogSource mls;
 
@@ -40,6 +46,8 @@ namespace EnemyLoot_SilasMeyer
         internal ConfigEntry<bool> MaskedDropMask;
         //internal ConfigEntry<bool> MaskedDropBody;
         internal ConfigEntry<bool> HoarderDropGuiltyGear;
+        internal ConfigEntry<bool> BrackenDropBlackOrb;
+        internal ConfigEntry<bool> SnareFleaDropWhiteOrb;
 
 
         void Awake()
@@ -56,6 +64,8 @@ namespace EnemyLoot_SilasMeyer
             this.MaskedDropMask = base.Config.Bind<bool>("General", "Drop Mask", true, "Masked drops mask on death");
             //  this.MaskedDropBody = base.Config.Bind<bool>("General", "Drop Body(not added yet)", true, "Masked drops body on death");
             this.HoarderDropGuiltyGear = base.Config.Bind<bool>("General", "Drop Guilty Gear Case", true, "Hoarder Bug can drop Guilty Gear Strive Case");
+            this.BrackenDropBlackOrb = base.Config.Bind<bool>("General", "Drop Black Orb", true, "Braken can drop Black Orb");
+            this.SnareFleaDropWhiteOrb = base.Config.Bind<bool>("General", "Drop White Orb", true, "Snare Flea can drop White Orb");
 
             //Loads Assets
 
@@ -65,6 +75,8 @@ namespace EnemyLoot_SilasMeyer
             //Adds the spiderEgg
 
             spiderEgg = bundle.LoadAsset<Item>("Assets/Items/SpiderEggItem.asset");
+            spiderEgg.positionOffset = new Vector3(-0.2f, 0, 0.3f);
+            spiderEgg.rotationOffset = new Vector3(-90, 0, -10);
             NetworkPrefabs.RegisterNetworkPrefab(spiderEgg.spawnPrefab);
             Utilities.FixMixerGroups(spiderEgg.spawnPrefab);
             Items.RegisterScrap(spiderEgg, 0, Levels.LevelTypes.All);
@@ -72,16 +84,63 @@ namespace EnemyLoot_SilasMeyer
             //Adds Guilty Gear Strive Case
 
             guiltyGearCase = bundle.LoadAsset<Item>("Assets/Items/GuiltyGearCaseItem.asset");
-            EnemyLoot.newAudio = bundle.LoadAsset<AudioClip>("Assets/Audio/GuiltyGearTownInsideMe.mp3");
-            GuiltyGearCaseBehaviour script = guiltyGearCase.spawnPrefab.AddComponent<GuiltyGearCaseBehaviour>();
-            script.grabbable = true;
-            script.grabbableToEnemies = true;
-            script.itemProperties = guiltyGearCase;
+            EnemyLoot.guiltyGearSFX = bundle.LoadAsset<AudioClip>("Assets/Audio/GuiltyGearTownInsideMe.mp3");
+            GuiltyGearCaseBehaviour scriptGG = guiltyGearCase.spawnPrefab.AddComponent<GuiltyGearCaseBehaviour>();
+            scriptGG.grabbable = true;
+            scriptGG.grabbableToEnemies = true;
+            scriptGG.itemProperties = guiltyGearCase;
+            guiltyGearCase.rotationOffset = new Vector3(0, 90, 0);
+            guiltyGearCase.positionOffset = new Vector3(0.1f, 0, -0.08f);
             NetworkPrefabs.RegisterNetworkPrefab(guiltyGearCase.spawnPrefab);
             Utilities.FixMixerGroups(guiltyGearCase.spawnPrefab);
             Items.RegisterScrap(guiltyGearCase, 3, Levels.LevelTypes.All);
 
-            
+            TerminalNode node1 = ScriptableObject.CreateInstance<TerminalNode>();
+            node1.clearPreviousText = true;
+            node1.displayText = "Info test zu Case";
+            Items.RegisterShopItem(guiltyGearCase, null, null, node1, 0);
+
+            //Adds Black Orb
+
+            blackOrb = bundle.LoadAsset<Item>("Assets/Items/BlackOrbItem.asset");
+            EnemyLoot.blackOrbSpawnSFX = bundle.LoadAsset<AudioClip>("Assets/Audio/BlackOrbSpawnSFX.mp3");
+            EnemyLoot.blackOrbTeleportSFX = bundle.LoadAsset<AudioClip>("Assets/Audio/BlackOrbTeleportSFX.mp3");
+            EnemyLoot.blackOrbCDSFX = bundle.LoadAsset<AudioClip>("Assets/Audio/BlackOrbCDSFX.mp3");
+            BlackOrbBehaviour scriptBO = blackOrb.spawnPrefab.AddComponent<BlackOrbBehaviour>();
+            scriptBO.grabbable = true;
+            scriptBO.grabbableToEnemies = true;
+            scriptBO.itemProperties = blackOrb;
+            blackOrb.rotationOffset = new Vector3(0, 0, 0);
+            blackOrb.positionOffset = new Vector3(-0.04f, 0.02f, -0.02f);
+            NetworkPrefabs.RegisterNetworkPrefab(blackOrb.spawnPrefab);
+            Utilities.FixMixerGroups(blackOrb.spawnPrefab);
+            Items.RegisterScrap(blackOrb, 0, Levels.LevelTypes.All);
+
+            TerminalNode node = ScriptableObject.CreateInstance<TerminalNode>();
+            node.clearPreviousText = true;
+            node.displayText = "Info test zu orb";
+            Items.RegisterShopItem(blackOrb, null, null, node, 0);
+
+            //Adds White Orb
+
+            whiteOrb= bundle.LoadAsset<Item>("Assets/Items/WhiteOrbItem.asset");
+            EnemyLoot.whiteOrbSpawnSFX = bundle.LoadAsset<AudioClip>("Assets/Audio/BlackOrbSpawnSFX.mp3");
+            EnemyLoot.whiteOrbTeleportSFX = bundle.LoadAsset<AudioClip>("Assets/Audio/BlackOrbTeleportSFX.mp3");
+            EnemyLoot.whiteOrbCDSFX = bundle.LoadAsset<AudioClip>("Assets/Audio/BlackOrbCDSFX.mp3");
+            WhiteOrbBehaviour scriptWO = whiteOrb.spawnPrefab.AddComponent<WhiteOrbBehaviour>();
+            scriptWO.grabbable = true;
+            scriptWO.grabbableToEnemies = true;
+            scriptWO.itemProperties = whiteOrb;
+            whiteOrb.rotationOffset = new Vector3(0, 0, 0);
+            whiteOrb.positionOffset = new Vector3(-0.04f, 0.02f, -0.02f);
+            NetworkPrefabs.RegisterNetworkPrefab(whiteOrb.spawnPrefab);
+            Utilities.FixMixerGroups(whiteOrb.spawnPrefab);
+            Items.RegisterScrap(whiteOrb, 2, Levels.LevelTypes.All);
+
+            TerminalNode node2 = ScriptableObject.CreateInstance<TerminalNode>();
+            node2.clearPreviousText = true;
+            node2.displayText = "Info test zu orb";
+            Items.RegisterShopItem(whiteOrb, null, null, node2, 0);
 
             //Logger
 
@@ -95,6 +154,8 @@ namespace EnemyLoot_SilasMeyer
             harmony.PatchAll(typeof(MaskedDrop));
             harmony.PatchAll(typeof(SpiderDrop));
             harmony.PatchAll(typeof(HoarderBugDrop));
+            harmony.PatchAll(typeof(SnareFleaDrop));
+            harmony.PatchAll(typeof(BrakenDrop));
         }
     }
 

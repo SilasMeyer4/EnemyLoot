@@ -13,17 +13,17 @@ using Unity.Netcode;
 
 namespace EnemyLoot.Patches
 {
-    [HarmonyPatch(typeof(FlowermanAI))]
-    internal class BrakenDrop
+    [HarmonyPatch(typeof(CentipedeAI))]
+    internal class SnareFleaDrop
     {
 
 
         [HarmonyPatch("KillEnemy")]
         [HarmonyPostfix]
-        static void Patch(FlowermanAI __instance)
+        static void Patch(CentipedeAI __instance)
         {
 
-            if (!EnemyLoot_SilasMeyer.EnemyLoot.Instance.BrackenDropBlackOrb.Value)
+            if (!EnemyLoot_SilasMeyer.EnemyLoot.Instance.SnareFleaDropWhiteOrb.Value)
             {
                 return;
             }
@@ -33,13 +33,13 @@ namespace EnemyLoot.Patches
                 return;
             }
 
-            EnemyLoot_SilasMeyer.EnemyLoot.Instance.mls.LogMessage("Creating Black Orb");
-            Item blackOrb = EnemyLoot_SilasMeyer.EnemyLoot.blackOrb;
+            EnemyLoot_SilasMeyer.EnemyLoot.Instance.mls.LogMessage("Creating White Orb");
+            Item whiteOrb = EnemyLoot_SilasMeyer.EnemyLoot.whiteOrb;
 
-            GameObject gameObject = UnityEngine.Object.Instantiate<GameObject>(blackOrb.spawnPrefab, __instance.transform.position + new Vector3(0f, 3f, 0f), Quaternion.identity);
+            GameObject gameObject = UnityEngine.Object.Instantiate<GameObject>(whiteOrb.spawnPrefab, __instance.transform.position + new Vector3(0f, 3f, 0f), Quaternion.identity);
             gameObject.GetComponentInChildren<GrabbableObject>().fallTime = 0f;
 
-            gameObject.GetComponentInChildren<GrabbableObject>().SetScrapValue(500);
+            gameObject.GetComponentInChildren<GrabbableObject>().SetScrapValue(20);
             gameObject.GetComponentInChildren<NetworkObject>().Spawn(false);
             RoundManager.Instance.SyncScrapValuesClientRpc(new NetworkObjectReference[]
             {
@@ -49,10 +49,7 @@ namespace EnemyLoot.Patches
                 gameObject.GetComponent<GrabbableObject>().scrapValue
             });
 
-            AudioSource audioSource = gameObject.GetComponent<AudioSource>();
-            audioSource.clip = EnemyLoot_SilasMeyer.EnemyLoot.blackOrbSpawnSFX;
-            audioSource.Play();
-            EnemyLoot_SilasMeyer.EnemyLoot.Instance.mls.LogMessage("Black Orb was created");
+            EnemyLoot_SilasMeyer.EnemyLoot.Instance.mls.LogMessage("White Orb was created");
         }
     }
 }

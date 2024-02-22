@@ -29,10 +29,6 @@ namespace EnemyLoot.Patches
         static void Patch(MaskedPlayerEnemy __instance)
         {
 
-
-
-
-
             if (!NetworkManager.Singleton.IsServer)
             {
                 return;
@@ -46,7 +42,8 @@ namespace EnemyLoot.Patches
 
                 GameObject gameObject = UnityEngine.Object.Instantiate<GameObject>(mask.spawnPrefab, __instance.transform.position + new Vector3(0f, 3f, 0f), Quaternion.identity);
                 gameObject.GetComponentInChildren<GrabbableObject>().fallTime = 0f;
-                gameObject.GetComponentInChildren<GrabbableObject>().SetScrapValue(50);
+                int scrapValue = new System.Random().Next(40, 60);
+                gameObject.GetComponentInChildren<GrabbableObject>().SetScrapValue(scrapValue);
                 gameObject.GetComponentInChildren<NetworkObject>().Spawn(false);
                 RoundManager.Instance.SyncScrapValuesClientRpc(new NetworkObjectReference[]
                 {
@@ -92,7 +89,14 @@ namespace EnemyLoot.Patches
 
             if (MaskedDrop._mask == null)
             {
+                if (new System.Random().Next(0,2) == 1)
+                {
+                MaskedDrop._mask = Enumerable.First<Item>(StartOfRound.Instance.allItemsList.itemsList, (Item m) => m.name == "TragedyMask");
+                } else
+                {
                 MaskedDrop._mask = Enumerable.First<Item>(StartOfRound.Instance.allItemsList.itemsList, (Item m) => m.name == "ComedyMask");
+                }
+                
             }
             EnemyLoot_SilasMeyer.EnemyLoot.Instance.mls.LogMessage(MaskedDrop._mask + ": Found Mask");
             return MaskedDrop._mask;

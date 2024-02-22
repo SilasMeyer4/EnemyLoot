@@ -1,0 +1,9 @@
+{
+    "name": "EnemyLoot",
+    "version_number": "0.1.0",
+    "website_url": "",
+    "description": "Killed enemies drop loot",
+    "dependencies": [
+        "Evaisa-LethalLib-0.14.2"
+    ]
+}
