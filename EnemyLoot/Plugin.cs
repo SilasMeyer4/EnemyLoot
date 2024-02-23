@@ -32,11 +32,17 @@ namespace EnemyLoot_SilasMeyer
         public static Item guiltyGearCase;
         public static Item blackOrb;
         public static Item whiteOrb;
+        public static Item orangeOrb;
+
         internal static AudioClip guiltyGearSFX;
         internal static AudioClip blackOrbSpawnSFX;
         internal static AudioClip blackOrbTeleportSFX;
         internal static AudioClip blackOrbCDSFX;
-        internal static AudioClip whiteOrbHealingSFX;
+        internal static AudioClip whiteOrbActivationSFX;
+        internal static AudioClip whiteOrbDestroySFX;
+        internal static AudioClip whiteOrbCDSFX;
+        internal static AudioClip orangeOrbCDSFX;
+        internal static AudioClip orangeOrbActivationSFX;
 
         internal ManualLogSource mls;
 
@@ -48,6 +54,9 @@ namespace EnemyLoot_SilasMeyer
         internal ConfigEntry<bool> HoarderDropGuiltyGear;
         internal ConfigEntry<bool> BrackenDropBlackOrb;
         internal ConfigEntry<bool> SnareFleaDropWhiteOrb;
+        internal ConfigEntry<bool> ThumperDropOrangeOrb;
+        internal ConfigEntry<int> GuiltyGearSpawnRate;
+
 
 
         void Awake()
@@ -66,7 +75,8 @@ namespace EnemyLoot_SilasMeyer
             this.HoarderDropGuiltyGear = base.Config.Bind<bool>("General", "Drop Guilty Gear Case", true, "Hoarder Bug can drop Guilty Gear Strive Case");
             this.BrackenDropBlackOrb = base.Config.Bind<bool>("General", "Drop Black Orb", true, "Braken can drop Black Orb");
             this.SnareFleaDropWhiteOrb = base.Config.Bind<bool>("General", "Drop White Orb", true, "Snare Flea can drop White Orb");
-
+            this.ThumperDropOrangeOrb = base.Config.Bind<bool>("General", "Drop Orange Orb", true, "Thumper can drop Orange Orb");
+            this.GuiltyGearSpawnRate = base.Config.Bind<int>("General", "Guilty Gear Spawnrate", 60, "Spawnrate of Guilty Gear drop when killing a Hoarder Bug");
             //Loads Assets
 
             string assetDir = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "enemyloot");
@@ -93,7 +103,7 @@ namespace EnemyLoot_SilasMeyer
             guiltyGearCase.positionOffset = new Vector3(0.1f, 0, -0.08f);
             NetworkPrefabs.RegisterNetworkPrefab(guiltyGearCase.spawnPrefab);
             Utilities.FixMixerGroups(guiltyGearCase.spawnPrefab);
-            Items.RegisterScrap(guiltyGearCase, 3, Levels.LevelTypes.All);
+            Items.RegisterScrap(guiltyGearCase, 0, Levels.LevelTypes.All);
 
             TerminalNode node1 = ScriptableObject.CreateInstance<TerminalNode>();
             node1.clearPreviousText = true;
@@ -124,9 +134,9 @@ namespace EnemyLoot_SilasMeyer
             //Adds White Orb
 
             whiteOrb= bundle.LoadAsset<Item>("Assets/Items/WhiteOrbItem.asset");
-            EnemyLoot.whiteOrbSpawnSFX = bundle.LoadAsset<AudioClip>("Assets/Audio/BlackOrbSpawnSFX.mp3");
-            EnemyLoot.whiteOrbTeleportSFX = bundle.LoadAsset<AudioClip>("Assets/Audio/BlackOrbTeleportSFX.mp3");
-            EnemyLoot.whiteOrbCDSFX = bundle.LoadAsset<AudioClip>("Assets/Audio/BlackOrbCDSFX.mp3");
+            EnemyLoot.whiteOrbCDSFX = bundle.LoadAsset<AudioClip>("Assets/Audio/WhiteOrbCDSFX.mp3");
+            EnemyLoot.whiteOrbActivationSFX = bundle.LoadAsset<AudioClip>("Assets/Audio/WhiteOrbHealSFX.mp3");
+            EnemyLoot.whiteOrbDestroySFX = bundle.LoadAsset<AudioClip>("Assets/Audio/WhiteOrbDestroySFX.mp3");
             WhiteOrbBehaviour scriptWO = whiteOrb.spawnPrefab.AddComponent<WhiteOrbBehaviour>();
             scriptWO.grabbable = true;
             scriptWO.grabbableToEnemies = true;
@@ -135,12 +145,32 @@ namespace EnemyLoot_SilasMeyer
             whiteOrb.positionOffset = new Vector3(-0.04f, 0.02f, -0.02f);
             NetworkPrefabs.RegisterNetworkPrefab(whiteOrb.spawnPrefab);
             Utilities.FixMixerGroups(whiteOrb.spawnPrefab);
-            Items.RegisterScrap(whiteOrb, 2, Levels.LevelTypes.All);
+            Items.RegisterScrap(whiteOrb, 0, Levels.LevelTypes.All);
 
             TerminalNode node2 = ScriptableObject.CreateInstance<TerminalNode>();
             node2.clearPreviousText = true;
             node2.displayText = "Info test zu orb";
             Items.RegisterShopItem(whiteOrb, null, null, node2, 0);
+
+            //Adds Orange Orb
+
+            orangeOrb = bundle.LoadAsset<Item>("Assets/Items/OrangeOrbItem.asset");
+            EnemyLoot.orangeOrbActivationSFX = bundle.LoadAsset<AudioClip>("Assets/Audio/OrangeOrbActivationSFX.mp3");
+            EnemyLoot.orangeOrbCDSFX = bundle.LoadAsset<AudioClip>("Assets/Audio/OrangeOrbCDSFX.mp3");
+            OrangeOrbBehaviour scriptOO = orangeOrb.spawnPrefab.AddComponent<OrangeOrbBehaviour>();
+            scriptOO.grabbable = true;
+            scriptOO.grabbableToEnemies = true;
+            scriptOO.itemProperties = orangeOrb;     
+            orangeOrb.rotationOffset = new Vector3(0, 0, 0);
+            orangeOrb.positionOffset = new Vector3(-0.04f, 0.02f, -0.02f);
+            NetworkPrefabs.RegisterNetworkPrefab(orangeOrb.spawnPrefab);
+            Utilities.FixMixerGroups(orangeOrb.spawnPrefab);
+            Items.RegisterScrap(orangeOrb, 0, Levels.LevelTypes.All);
+
+            TerminalNode node3 = ScriptableObject.CreateInstance<TerminalNode>();
+            node3.clearPreviousText = true;
+            node3.displayText = "Info test zu orb";
+            Items.RegisterShopItem(orangeOrb, null, null, node3, 0);
 
             //Logger
 
@@ -156,6 +186,7 @@ namespace EnemyLoot_SilasMeyer
             harmony.PatchAll(typeof(HoarderBugDrop));
             harmony.PatchAll(typeof(SnareFleaDrop));
             harmony.PatchAll(typeof(BrakenDrop));
+            harmony.PatchAll(typeof(ThumperDrop));
         }
     }
 

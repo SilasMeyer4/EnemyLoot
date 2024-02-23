@@ -13,17 +13,17 @@ using Unity.Netcode;
 
 namespace EnemyLoot.Patches
 {
-    [HarmonyPatch(typeof(SandSpiderAI))]
-    internal class SpiderDrop
+    [HarmonyPatch(typeof(CrawlerAI))]
+    internal class ThumperDrop
     {
 
 
         [HarmonyPatch("KillEnemy")]
         [HarmonyPostfix]
-        static void Patch(SandSpiderAI __instance)
+        static void Patch(CrawlerAI __instance)
         {
 
-            if (!EnemyLoot_SilasMeyer.EnemyLoot.Instance.SpiderDropSpiderEgg.Value)
+            if (!EnemyLoot_SilasMeyer.EnemyLoot.Instance.ThumperDropOrangeOrb.Value)
             {
                 return;
             }
@@ -33,13 +33,12 @@ namespace EnemyLoot.Patches
                 return;
             }
 
-            EnemyLoot_SilasMeyer.EnemyLoot.Instance.mls.LogMessage("Try spawning egg");
-            Item egg = EnemyLoot_SilasMeyer.EnemyLoot.spiderEgg;
+            EnemyLoot_SilasMeyer.EnemyLoot.Instance.mls.LogMessage("Creating Orange Orb");
+            Item orangeOrb = EnemyLoot_SilasMeyer.EnemyLoot.orangeOrb;
 
-            GameObject gameObject = UnityEngine.Object.Instantiate<GameObject>(egg.spawnPrefab, __instance.transform.position + new Vector3(0f, 3f, 0f), Quaternion.identity);
+            GameObject gameObject = UnityEngine.Object.Instantiate<GameObject>(orangeOrb.spawnPrefab, __instance.transform.position + new Vector3(0f, 3f, 0f), Quaternion.identity);
             gameObject.GetComponentInChildren<GrabbableObject>().fallTime = 0f;
-
-            int scrapValue = new System.Random().Next(300, 350);
+            int scrapValue = new System.Random().Next(90, 120);
             gameObject.GetComponentInChildren<GrabbableObject>().SetScrapValue(scrapValue);
             gameObject.GetComponentInChildren<NetworkObject>().Spawn(false);
             RoundManager.Instance.SyncScrapValuesClientRpc(new NetworkObjectReference[]
@@ -50,16 +49,7 @@ namespace EnemyLoot.Patches
                 gameObject.GetComponent<GrabbableObject>().scrapValue
             });
 
-            EnemyLoot_SilasMeyer.EnemyLoot.Instance.mls.LogMessage("Egg was spawned");
-
-
-
-            
-
+            EnemyLoot_SilasMeyer.EnemyLoot.Instance.mls.LogMessage("Orange Orb was created");
         }
-
-
-
-
     }
 }

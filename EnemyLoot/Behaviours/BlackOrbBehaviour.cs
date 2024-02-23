@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GameNetcodeStuff;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,15 +15,22 @@ namespace EnemyLoot.Behaviours
 
         private int activationCounter = 0;
         private bool isTimerRunning = false;
-        AudioSource audioSource;
+        private AudioSource audioSource;
+        private PlayerControllerB player;
+        private Vector3 playerShipTeleportPosition; 
+        private Vector3 playerOrbTeleportPosition;
 
 
         public override void ItemActivate(bool used, bool buttonDown = true)
         {
-            
+            player = playerHeldBy;
+
 
             base.ItemActivate(used, buttonDown);
             if (buttonDown)
+
+
+                playerShipTeleportPosition = StartOfRound.Instance.playerSpawnPositions[0].position;
             {
                 if (!isTimerRunning) 
                 {
@@ -56,7 +64,23 @@ namespace EnemyLoot.Behaviours
             isTimerRunning = true;
             yield return new WaitForSeconds(4.5f);
             //Teleport
+           
+            if (activationCounter == 1)
+            {
+                playerOrbTeleportPosition = player.transform.position;
+                player.TeleportPlayer(playerShipTeleportPosition);
+            } else
+            {
+                player.TeleportPlayer(playerOrbTeleportPosition);
+                orbCooldown();
+            }
+           
+
             isTimerRunning = false;
+
+            
+
+
         }
 
         private IEnumerator orbCooldown()
