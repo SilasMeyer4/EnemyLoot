@@ -89,13 +89,15 @@ namespace EnemyLoot.Patches
 
             if (MaskedDrop._mask == null)
             {
-                if (new System.Random().Next(0,2) == 1)
-                {
-                MaskedDrop._mask = Enumerable.First<Item>(StartOfRound.Instance.allItemsList.itemsList, (Item m) => m.name == "TragedyMask");
-                } else
-                {
+              //  int randomValue = new System.Random().Next(0, 2);
+
+                //if (randomValue == 1)
+                //{
+                //MaskedDrop._mask = Enumerable.First<Item>(StartOfRound.Instance.allItemsList.itemsList, (Item m) => m.name == "TragedyMask");
+                //} else
+                //{
                 MaskedDrop._mask = Enumerable.First<Item>(StartOfRound.Instance.allItemsList.itemsList, (Item m) => m.name == "ComedyMask");
-                }
+              //  }
                 
             }
             EnemyLoot_SilasMeyer.EnemyLoot.Instance.mls.LogMessage(MaskedDrop._mask + ": Found Mask");

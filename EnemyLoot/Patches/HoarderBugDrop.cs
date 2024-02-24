@@ -34,7 +34,7 @@ namespace EnemyLoot.Patches
             }
 
 
-            int spawnValue = new System.Random().Next(0, 101);
+            int spawnValue = new System.Random().Next(1, 101);
             
             if (spawnValue <= EnemyLoot_SilasMeyer.EnemyLoot.Instance.GuiltyGearSpawnRate.Value)
             {

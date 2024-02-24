@@ -19,6 +19,8 @@ namespace EnemyLoot.Behaviours
         private AudioSource audioSource;
         private PlayerControllerB player;
 
+ 
+
         public override void ItemActivate(bool used, bool buttonDown = true)
         {
 
@@ -27,26 +29,19 @@ namespace EnemyLoot.Behaviours
             {
                 player = playerHeldBy;
                 bonusMovementSpeed = player.movementSpeed * 0.5f;
-               
-
 
                 if (!isTimerRunning)
                 {
                     activationCounter++;
                     StartCoroutine(Activation());
-
-
                 } else
                 {
                     audioSource = gameObject.GetComponent<AudioSource>();
                     audioSource.clip = EnemyLoot_SilasMeyer.EnemyLoot.orangeOrbCDSFX;
                     audioSource.Play();
                 }
-
             }
         }
-
- 
 
         private IEnumerator Activation()
         {
@@ -60,8 +55,12 @@ namespace EnemyLoot.Behaviours
                 player.sprintMeter = 1f;
             }
 
+            //EnemyLoot_SilasMeyer.EnemyLoot.Instance.isOrangeOrbActive = true;
+
             yield return new WaitForSeconds(15f);
-            
+
+            //EnemyLoot_SilasMeyer.EnemyLoot.Instance.isOrangeOrbActive = false;
+
 
             if (player != null)
             {
@@ -71,9 +70,6 @@ namespace EnemyLoot.Behaviours
             yield return new WaitForSeconds(45f);
 
             isTimerRunning = false;
-
-
         }
-
     }
 }

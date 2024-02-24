@@ -22,7 +22,7 @@ namespace EnemyLoot_SilasMeyer
     {
         public const string modGUID = "SilasMeyer.EnemyLoot";
         public const string modName = "EnemyLoot";
-        public const string modVersion = "0.1.0";
+        public const string modVersion = "0.2.0";
 
         private readonly Harmony harmony = new Harmony(modGUID);
 
@@ -43,6 +43,8 @@ namespace EnemyLoot_SilasMeyer
         internal static AudioClip whiteOrbCDSFX;
         internal static AudioClip orangeOrbCDSFX;
         internal static AudioClip orangeOrbActivationSFX;
+
+        public bool isOrangeOrbActive = false;
 
         internal ManualLogSource mls;
 
@@ -103,12 +105,9 @@ namespace EnemyLoot_SilasMeyer
             guiltyGearCase.positionOffset = new Vector3(0.1f, 0, -0.08f);
             NetworkPrefabs.RegisterNetworkPrefab(guiltyGearCase.spawnPrefab);
             Utilities.FixMixerGroups(guiltyGearCase.spawnPrefab);
-            Items.RegisterScrap(guiltyGearCase, 0, Levels.LevelTypes.All);
+            Items.RegisterScrap(guiltyGearCase, 3, Levels.LevelTypes.All);
 
-            TerminalNode node1 = ScriptableObject.CreateInstance<TerminalNode>();
-            node1.clearPreviousText = true;
-            node1.displayText = "Info test zu Case";
-            Items.RegisterShopItem(guiltyGearCase, null, null, node1, 0);
+
 
             //Adds Black Orb
 
@@ -126,14 +125,11 @@ namespace EnemyLoot_SilasMeyer
             Utilities.FixMixerGroups(blackOrb.spawnPrefab);
             Items.RegisterScrap(blackOrb, 0, Levels.LevelTypes.All);
 
-            TerminalNode node = ScriptableObject.CreateInstance<TerminalNode>();
-            node.clearPreviousText = true;
-            node.displayText = "Info test zu orb";
-            Items.RegisterShopItem(blackOrb, null, null, node, 0);
+
 
             //Adds White Orb
 
-            whiteOrb= bundle.LoadAsset<Item>("Assets/Items/WhiteOrbItem.asset");
+            whiteOrb = bundle.LoadAsset<Item>("Assets/Items/WhiteOrbItem.asset");
             EnemyLoot.whiteOrbCDSFX = bundle.LoadAsset<AudioClip>("Assets/Audio/WhiteOrbCDSFX.mp3");
             EnemyLoot.whiteOrbActivationSFX = bundle.LoadAsset<AudioClip>("Assets/Audio/WhiteOrbHealSFX.mp3");
             EnemyLoot.whiteOrbDestroySFX = bundle.LoadAsset<AudioClip>("Assets/Audio/WhiteOrbDestroySFX.mp3");
@@ -147,10 +143,6 @@ namespace EnemyLoot_SilasMeyer
             Utilities.FixMixerGroups(whiteOrb.spawnPrefab);
             Items.RegisterScrap(whiteOrb, 0, Levels.LevelTypes.All);
 
-            TerminalNode node2 = ScriptableObject.CreateInstance<TerminalNode>();
-            node2.clearPreviousText = true;
-            node2.displayText = "Info test zu orb";
-            Items.RegisterShopItem(whiteOrb, null, null, node2, 0);
 
             //Adds Orange Orb
 
@@ -160,17 +152,36 @@ namespace EnemyLoot_SilasMeyer
             OrangeOrbBehaviour scriptOO = orangeOrb.spawnPrefab.AddComponent<OrangeOrbBehaviour>();
             scriptOO.grabbable = true;
             scriptOO.grabbableToEnemies = true;
-            scriptOO.itemProperties = orangeOrb;     
+            scriptOO.itemProperties = orangeOrb;
             orangeOrb.rotationOffset = new Vector3(0, 0, 0);
             orangeOrb.positionOffset = new Vector3(-0.04f, 0.02f, -0.02f);
             NetworkPrefabs.RegisterNetworkPrefab(orangeOrb.spawnPrefab);
             Utilities.FixMixerGroups(orangeOrb.spawnPrefab);
             Items.RegisterScrap(orangeOrb, 0, Levels.LevelTypes.All);
 
-            TerminalNode node3 = ScriptableObject.CreateInstance<TerminalNode>();
-            node3.clearPreviousText = true;
-            node3.displayText = "Info test zu orb";
-            Items.RegisterShopItem(orangeOrb, null, null, node3, 0);
+
+
+            //Adds Items to the shop
+
+            //TerminalNode node1 = ScriptableObject.CreateInstance<TerminalNode>();
+            //node1.clearPreviousText = true;
+            //node1.displayText = "Info test zu Case";
+            //Items.RegisterShopItem(guiltyGearCase, null, null, node1, 0);
+
+            //TerminalNode node = ScriptableObject.CreateInstance<TerminalNode>();
+            //node.clearPreviousText = true;
+            //node.displayText = "Info test zu orb";
+            //Items.RegisterShopItem(blackOrb, null, null, node, 0);
+
+            //TerminalNode node2 = ScriptableObject.CreateInstance<TerminalNode>();
+            //node2.clearPreviousText = true;
+            //node2.displayText = "Info test zu orb";
+            //Items.RegisterShopItem(whiteOrb, null, null, node2, 0);
+
+            //TerminalNode node3 = ScriptableObject.CreateInstance<TerminalNode>();
+            //node3.clearPreviousText = true;
+            //node3.displayText = "Info test zu orb";
+            //Items.RegisterShopItem(orangeOrb, null, null, node3, 0);
 
             //Logger
 
@@ -187,6 +198,7 @@ namespace EnemyLoot_SilasMeyer
             harmony.PatchAll(typeof(SnareFleaDrop));
             harmony.PatchAll(typeof(BrakenDrop));
             harmony.PatchAll(typeof(ThumperDrop));
+            // harmony.PatchAll(typeof(OrangeOrbSprintMeterPatch));
         }
     }
 

@@ -83,6 +83,7 @@
     <Compile Include="Behaviours\BlackOrbBehaviour.cs" />
     <Compile Include="Behaviours\GuiltyGearCaseBehaviour.cs" />
     <Compile Include="Behaviours\OrangeOrbBehaviour.cs" />
+    <Compile Include="Behaviours\OrangeOrbSprintMeterPatch.cs" />
     <Compile Include="Behaviours\WhiteOrbBehaviour.cs" />
     <Compile Include="Patches\BrakenDrop.cs" />
     <Compile Include="Patches\HawkDrop.cs" />
