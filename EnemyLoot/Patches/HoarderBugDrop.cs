@@ -9,6 +9,7 @@ using BepInEx;
 using BepInEx.Logging;
 using System.Runtime.CompilerServices;
 using Unity.Netcode;
+using SilasMeyer_EnemyLoot;
 
 
 namespace EnemyLoot.Patches
@@ -23,7 +24,7 @@ namespace EnemyLoot.Patches
         static void Patch(HoarderBugAI __instance)
         {
 
-            if (!EnemyLoot_SilasMeyer.EnemyLoot.Instance.HoarderDropGuiltyGear.Value)
+            if (!Config.Instance.HoarderDropGuiltyGear.Value)
             {
                 return;
             }
@@ -36,7 +37,7 @@ namespace EnemyLoot.Patches
 
             int spawnValue = new System.Random().Next(1, 101);
             
-            if (spawnValue <= EnemyLoot_SilasMeyer.EnemyLoot.Instance.GuiltyGearSpawnRate.Value)
+            if (spawnValue <= Config.Instance.GuiltyGearSpawnRate.Value)
             {
                 EnemyLoot_SilasMeyer.EnemyLoot.Instance.mls.LogMessage("Try spawning Guilty Gear Case");
                 Item itemCase = EnemyLoot_SilasMeyer.EnemyLoot.guiltyGearCase;

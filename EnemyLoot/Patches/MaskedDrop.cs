@@ -9,6 +9,7 @@ using BepInEx;
 using BepInEx.Logging;
 using System.Runtime.CompilerServices;
 using Unity.Netcode;
+using SilasMeyer_EnemyLoot;
 
 
 namespace EnemyLoot.Patches
@@ -34,10 +35,12 @@ namespace EnemyLoot.Patches
                 return;
             }
 
-            if (EnemyLoot_SilasMeyer.EnemyLoot.Instance.MaskedDropMask.Value)
+            if (Config.Instance.MaskedDropMask.Value)
             {
+                return;
+            }
 
-                EnemyLoot_SilasMeyer.EnemyLoot.Instance.mls.LogMessage("Try getting Mask");
+            EnemyLoot_SilasMeyer.EnemyLoot.Instance.mls.LogMessage("Try getting Mask");
                 Item mask = MaskedDrop.GetMask();
 
                 GameObject gameObject = UnityEngine.Object.Instantiate<GameObject>(mask.spawnPrefab, __instance.transform.position + new Vector3(0f, 3f, 0f), Quaternion.identity);
@@ -54,7 +57,7 @@ namespace EnemyLoot.Patches
                 });
 
                 EnemyLoot_SilasMeyer.EnemyLoot.Instance.mls.LogMessage("Mask was spawned");
-            }
+            
 
             //funktioniert irgendwie noch nicht
             //if (EnemyLoot_SilasMeyer.EnemyLoot.Instance.MaskedDropBody.Value && __instance.mimickingPlayer.deadBody == null &&

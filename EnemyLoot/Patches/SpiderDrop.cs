@@ -9,6 +9,7 @@ using BepInEx;
 using BepInEx.Logging;
 using System.Runtime.CompilerServices;
 using Unity.Netcode;
+using SilasMeyer_EnemyLoot;
 
 
 namespace EnemyLoot.Patches
@@ -23,7 +24,7 @@ namespace EnemyLoot.Patches
         static void Patch(SandSpiderAI __instance)
         {
 
-            if (!EnemyLoot_SilasMeyer.EnemyLoot.Instance.SpiderDropSpiderEgg.Value)
+            if (!Config.Instance.SpiderDropSpiderEgg.Value)
             {
                 return;
             }
