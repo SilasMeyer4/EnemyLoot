@@ -9,7 +9,7 @@ using BepInEx;
 using BepInEx.Logging;
 using System.Runtime.CompilerServices;
 using Unity.Netcode;
-using SilasMeyer_EnemyLoot;
+using EnemyLoot;
 
 
 namespace EnemyLoot.Patches
@@ -40,7 +40,7 @@ namespace EnemyLoot.Patches
                 return;
             }
 
-            EnemyLoot_SilasMeyer.EnemyLoot.Instance.mls.LogMessage("Try getting Mask");
+            EnemyLoot.Instance.mls.LogMessage("Try getting Mask");
                 Item mask = MaskedDrop.GetMask();
 
                 GameObject gameObject = UnityEngine.Object.Instantiate<GameObject>(mask.spawnPrefab, __instance.transform.position + new Vector3(0f, 3f, 0f), Quaternion.identity);
@@ -56,7 +56,7 @@ namespace EnemyLoot.Patches
                 gameObject.GetComponent<GrabbableObject>().scrapValue
                 });
 
-                EnemyLoot_SilasMeyer.EnemyLoot.Instance.mls.LogMessage("Mask was spawned");
+                EnemyLoot.Instance.mls.LogMessage("Mask was spawned");
             
 
             //funktioniert irgendwie noch nicht
@@ -103,7 +103,7 @@ namespace EnemyLoot.Patches
               //  }
                 
             }
-            EnemyLoot_SilasMeyer.EnemyLoot.Instance.mls.LogMessage(MaskedDrop._mask + ": Found Mask");
+            EnemyLoot.Instance.mls.LogMessage(MaskedDrop._mask + ": Found Mask");
             return MaskedDrop._mask;
         }
 

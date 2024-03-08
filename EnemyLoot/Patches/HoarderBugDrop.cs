@@ -9,7 +9,8 @@ using BepInEx;
 using BepInEx.Logging;
 using System.Runtime.CompilerServices;
 using Unity.Netcode;
-using SilasMeyer_EnemyLoot;
+
+using EnemyLoot;
 
 
 namespace EnemyLoot.Patches
@@ -39,8 +40,8 @@ namespace EnemyLoot.Patches
             
             if (spawnValue <= Config.Instance.GuiltyGearSpawnRate.Value)
             {
-                EnemyLoot_SilasMeyer.EnemyLoot.Instance.mls.LogMessage("Try spawning Guilty Gear Case");
-                Item itemCase = EnemyLoot_SilasMeyer.EnemyLoot.guiltyGearCase;
+                EnemyLoot.Instance.mls.LogMessage("Try spawning Guilty Gear Case");
+                Item itemCase = EnemyLoot.guiltyGearCase;
 
                 GameObject gameObject = UnityEngine.Object.Instantiate<GameObject>(itemCase.spawnPrefab, __instance.transform.position + new Vector3(0f, 3f, 0f), Quaternion.identity);
                 gameObject.GetComponentInChildren<GrabbableObject>().fallTime = 0f;
@@ -56,7 +57,7 @@ namespace EnemyLoot.Patches
                 gameObject.GetComponent<GrabbableObject>().scrapValue
                 });
 
-                EnemyLoot_SilasMeyer.EnemyLoot.Instance.mls.LogMessage("Guilty Gear Case was spawned");
+                EnemyLoot.Instance.mls.LogMessage("Guilty Gear Case was spawned");
             }
 
           

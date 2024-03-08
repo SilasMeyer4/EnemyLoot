@@ -14,11 +14,14 @@ using LethalLib.Modules;
 using EnemyLoot.Patches;
 using EnemyLoot.Behaviours;
 using System.Runtime.CompilerServices;
-using SilasMeyer_EnemyLoot;
+using CSync.Lib;
+using CSync.Util;
+using System.Runtime.Serialization;
 
-namespace EnemyLoot_SilasMeyer
+namespace EnemyLoot
 {
     [BepInPlugin(modGUID, modName, modVersion)]
+    [BepInDependency("io.github.CSync")]
     public class EnemyLoot : BaseUnityPlugin
     {
         public const string modGUID = "SilasMeyer.EnemyLoot";
@@ -29,7 +32,7 @@ namespace EnemyLoot_SilasMeyer
 
         public static EnemyLoot Instance;
 
-        public static Config MyConfig { get; private set; }
+        public static Config MyConfig;
 
         public static Item spiderEgg;
         public static Item guiltyGearCase;
@@ -59,10 +62,8 @@ namespace EnemyLoot_SilasMeyer
                 Instance = this;
             }
 
-            //Config File
-
             MyConfig = new Config(base.Config);
-     
+
             //Loads Assets
 
             string assetDir = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "enemyloot");
@@ -145,37 +146,10 @@ namespace EnemyLoot_SilasMeyer
 
 
 
-            //Adds Items to the shop
 
-           
+            //Adds Items to the shop for Host
 
-            if (SilasMeyer_EnemyLoot.Config.Instance.areItemsInShop.Value)
-            {
-
-                //TerminalNode node1 = ScriptableObject.CreateInstance<TerminalNode>();
-                //node1.clearPreviousText = true;
-                //node1.displayText = "Info test zu Case";
-                //Items.RegisterShopItem(guiltyGearCase, null, null, node1, 0);
-
-                TerminalNode node = ScriptableObject.CreateInstance<TerminalNode>();
-                node.clearPreviousText = true;
-                node.displayText = "Info test zu orb";
-                Items.RegisterShopItem(blackOrb, null, null, node, 0);
-                //800
-
-                TerminalNode node2 = ScriptableObject.CreateInstance<TerminalNode>();
-                node2.clearPreviousText = true;
-                node2.displayText = "Info test zu orb";
-                Items.RegisterShopItem(whiteOrb, null, null, node2, 0);
-                //100
-
-                TerminalNode node3 = ScriptableObject.CreateInstance<TerminalNode>();
-                node3.clearPreviousText = true;
-                node3.displayText = "Info test zu orb";
-                Items.RegisterShopItem(orangeOrb, null, null, node3, 0);
-                //200
-            }
-        
+ 
 
             //Logger
 
@@ -185,7 +159,7 @@ namespace EnemyLoot_SilasMeyer
             //Patching
 
             //Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), modGUID);
-            harmony.PatchAll(typeof(Config));
+            harmony.PatchAll(typeof(Shop));
             harmony.PatchAll(typeof(EnemyLoot));
             harmony.PatchAll(typeof(MaskedDrop));
             harmony.PatchAll(typeof(SpiderDrop));
@@ -194,6 +168,36 @@ namespace EnemyLoot_SilasMeyer
             harmony.PatchAll(typeof(BrakenDrop));
             harmony.PatchAll(typeof(ThumperDrop));
             // harmony.PatchAll(typeof(OrangeOrbSprintMeterPatch));
+        }
+    }
+
+    [DataContract]
+    public class Config : SyncedConfig<Config>
+    {
+
+        [DataMember] public SyncedEntry<bool> areItemsInShop;
+
+        [DataMember] public SyncedEntry<bool> SpiderDropSpiderEgg { get; private set; }
+        [DataMember] public SyncedEntry<bool> MaskedDropMask { get; private set; }
+        [DataMember] public SyncedEntry<bool> HoarderDropGuiltyGear { get; private set; }
+        [DataMember] public SyncedEntry<bool> BrackenDropBlackOrb { get; private set; }
+        [DataMember] public SyncedEntry<bool> SnareFleaDropWhiteOrb { get; private set; }
+        [DataMember] public SyncedEntry<bool> ThumperDropOrangeOrb { get; private set; }
+        [DataMember] public SyncedEntry<int> GuiltyGearSpawnRate { get; private set; }
+
+        public Config(ConfigFile cfg) : base(EnemyLoot.modGUID)
+        {
+            ConfigManager.Register(this);
+
+            areItemsInShop = cfg.BindSyncedEntry("1. General", "Activate Items in shop", true, "Adds the new items to the shop");
+
+            SpiderDropSpiderEgg = cfg.BindSyncedEntry("2. Drops", "Drop Spider Egg", true, "Spider drops egg on death");
+            MaskedDropMask = cfg.BindSyncedEntry("2. Drops", "Drop Mask", true, "Masked drops mask on death");
+            HoarderDropGuiltyGear = cfg.BindSyncedEntry("2. Drops", "Drop Guilty Gear Case", true, "Hoarder Bug can drop Guilty Gear Strive Case");
+            BrackenDropBlackOrb = cfg.BindSyncedEntry("2. Drops", "Drop Black Orb", true, "Braken can drop Black Orb");
+            SnareFleaDropWhiteOrb = cfg.BindSyncedEntry("2. Drops", "Drop White Orb", true, "Snare Flea can drop White Orb");
+            ThumperDropOrangeOrb = cfg.BindSyncedEntry("2. Drops", "Drop Orange Orb", true, "Thumper can drop Orange Orb");
+            GuiltyGearSpawnRate = cfg.BindSyncedEntry("3. Spawnrates", "Guilty Gear Spawnrate", 60, "Spawnrate in percent of the Guilty Gear drop when killing a Hoarder Bug. Enter a number from 0-100.");
         }
     }
 

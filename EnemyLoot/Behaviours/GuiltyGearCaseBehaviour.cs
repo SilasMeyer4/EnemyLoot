@@ -33,7 +33,7 @@ namespace EnemyLoot.Behaviours
         {
             isTimerRunning = true;
             AudioSource audioSource = gameObject.GetComponent<AudioSource>();
-            audioSource.clip = EnemyLoot_SilasMeyer.EnemyLoot.guiltyGearSFX;
+            audioSource.clip = EnemyLoot.guiltyGearSFX;
             audioSource.Play();
 
             yield return new WaitForSeconds(3.5f);

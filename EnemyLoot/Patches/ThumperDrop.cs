@@ -9,7 +9,7 @@ using BepInEx;
 using BepInEx.Logging;
 using System.Runtime.CompilerServices;
 using Unity.Netcode;
-using SilasMeyer_EnemyLoot;
+using EnemyLoot;
 
 
 namespace EnemyLoot.Patches
@@ -34,8 +34,8 @@ namespace EnemyLoot.Patches
                 return;
             }
 
-            EnemyLoot_SilasMeyer.EnemyLoot.Instance.mls.LogMessage("Creating Orange Orb");
-            Item orangeOrb = EnemyLoot_SilasMeyer.EnemyLoot.orangeOrb;
+            EnemyLoot.Instance.mls.LogMessage("Creating Orange Orb");
+            Item orangeOrb = EnemyLoot.orangeOrb;
 
             GameObject gameObject = UnityEngine.Object.Instantiate<GameObject>(orangeOrb.spawnPrefab, __instance.transform.position + new Vector3(0f, 3f, 0f), Quaternion.identity);
             gameObject.GetComponentInChildren<GrabbableObject>().fallTime = 0f;
@@ -50,7 +50,7 @@ namespace EnemyLoot.Patches
                 gameObject.GetComponent<GrabbableObject>().scrapValue
             });
 
-            EnemyLoot_SilasMeyer.EnemyLoot.Instance.mls.LogMessage("Orange Orb was created");
+            EnemyLoot.Instance.mls.LogMessage("Orange Orb was created");
         }
     }
 }

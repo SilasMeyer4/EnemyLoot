@@ -17,7 +17,7 @@ namespace EnemyLoot.Behaviours
         [HarmonyPostfix]
         static void infinite_Sprint_Patch(ref float ___sprintMeter) 
         {
-            if (EnemyLoot_SilasMeyer.EnemyLoot.Instance.isOrangeOrbActive)
+            if (EnemyLoot.Instance.isOrangeOrbActive)
             {
                 ___sprintMeter = 1f;
             }

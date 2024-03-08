@@ -37,7 +37,7 @@ namespace EnemyLoot.Behaviours
                 } else
                 {
                     audioSource = gameObject.GetComponent<AudioSource>();
-                    audioSource.clip = EnemyLoot_SilasMeyer.EnemyLoot.orangeOrbCDSFX;
+                    audioSource.clip = EnemyLoot.orangeOrbCDSFX;
                     audioSource.Play();
                 }
             }
@@ -47,7 +47,7 @@ namespace EnemyLoot.Behaviours
         {
             isTimerRunning = true;
             audioSource = gameObject.GetComponent<AudioSource>();
-            audioSource.clip = EnemyLoot_SilasMeyer.EnemyLoot.orangeOrbActivationSFX;
+            audioSource.clip = EnemyLoot.orangeOrbActivationSFX;
             audioSource.Play();
             if (player != null)
             {

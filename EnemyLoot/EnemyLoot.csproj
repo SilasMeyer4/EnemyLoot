@@ -40,6 +40,15 @@
     <Reference Include="BepInEx">
       <HintPath>K:\Lethal Company\BepInEx\core\BepInEx.dll</HintPath>
     </Reference>
+    <Reference Include="BepInEx.Harmony">
+      <HintPath>K:\Lethal Company\BepInEx\core\BepInEx.Harmony.dll</HintPath>
+    </Reference>
+    <Reference Include="BepInEx.Preloader">
+      <HintPath>K:\Lethal Company\BepInEx\core\BepInEx.Preloader.dll</HintPath>
+    </Reference>
+    <Reference Include="CSync">
+      <HintPath>K:\Lethal Company\BepInEx\plugins\CSync.dll</HintPath>
+    </Reference>
     <Reference Include="LethalLib">
       <HintPath>K:\Lethal Company\BepInEx\plugins\LethalLib\LethalLib.dll</HintPath>
     </Reference>
@@ -61,6 +70,7 @@
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Text.Encodings.Web, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Text.Encodings.Web.8.0.0\lib\net462\System.Text.Encodings.Web.dll</HintPath>
     </Reference>
@@ -117,8 +127,7 @@
     <Compile Include="Behaviours\OrangeOrbBehaviour.cs" />
     <Compile Include="Behaviours\OrangeOrbSprintMeterPatch.cs" />
     <Compile Include="Behaviours\WhiteOrbBehaviour.cs" />
-    <Compile Include="Config.cs" />
-    <Compile Include="Netcode\SyncedInstance.cs" />
+    <Compile Include="ShopItems.cs" />
     <Compile Include="Patches\BrakenDrop.cs" />
     <Compile Include="Patches\HawkDrop.cs" />
     <Compile Include="Patches\HoarderBugDrop.cs" />
@@ -129,9 +138,6 @@
     <Compile Include="Plugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-    <None Include="packages.config" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

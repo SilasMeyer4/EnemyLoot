@@ -30,7 +30,7 @@ namespace EnemyLoot.Behaviours
                 if (activationCounter >= 2)
                 {
                     audioSource = gameObject.GetComponent<AudioSource>();
-                    audioSource.clip = EnemyLoot_SilasMeyer.EnemyLoot.whiteOrbDestroySFX;
+                    audioSource.clip = EnemyLoot.whiteOrbDestroySFX;
                     audioSource.Play();
                     return;
                 }
@@ -58,7 +58,7 @@ namespace EnemyLoot.Behaviours
         private void CoolDown()
         {
             audioSource = gameObject.GetComponent<AudioSource>();
-            audioSource.clip = EnemyLoot_SilasMeyer.EnemyLoot.whiteOrbCDSFX;
+            audioSource.clip = EnemyLoot.whiteOrbCDSFX;
             audioSource.Play();
         }
 
@@ -67,7 +67,7 @@ namespace EnemyLoot.Behaviours
         {
             isTimerRunning = true;
             audioSource = gameObject.GetComponent<AudioSource>();
-            audioSource.clip = EnemyLoot_SilasMeyer.EnemyLoot.whiteOrbActivationSFX;
+            audioSource.clip = EnemyLoot.whiteOrbActivationSFX;
             audioSource.Play();
 
             yield return new WaitForSeconds(2.2f);
@@ -94,7 +94,7 @@ namespace EnemyLoot.Behaviours
             if (activationCounter >= 2)
             {
                 audioSource = gameObject.GetComponent<AudioSource>();
-                audioSource.clip = EnemyLoot_SilasMeyer.EnemyLoot.whiteOrbDestroySFX;
+                audioSource.clip = EnemyLoot.whiteOrbDestroySFX;
                 audioSource.Play();
 
                 yield return new WaitForSeconds(4.2f);

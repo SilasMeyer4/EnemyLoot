@@ -41,7 +41,7 @@ namespace EnemyLoot.Behaviours
                 {
 
                     audioSource = gameObject.GetComponent<AudioSource>();
-                    audioSource.clip = EnemyLoot_SilasMeyer.EnemyLoot.blackOrbCDSFX;
+                    audioSource.clip = EnemyLoot.blackOrbCDSFX;
                     audioSource.Play();
 
                 }
@@ -52,7 +52,7 @@ namespace EnemyLoot.Behaviours
         {
             isTimerRunning = true;
             audioSource = gameObject.GetComponent<AudioSource>();
-            audioSource.clip = EnemyLoot_SilasMeyer.EnemyLoot.blackOrbTeleportSFX;
+            audioSource.clip = EnemyLoot.blackOrbTeleportSFX;
             audioSource.Play();
 
             yield return new WaitForSeconds(4.5f);

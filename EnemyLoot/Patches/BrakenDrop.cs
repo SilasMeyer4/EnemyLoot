@@ -9,7 +9,7 @@ using BepInEx;
 using BepInEx.Logging;
 using System.Runtime.CompilerServices;
 using Unity.Netcode;
-using SilasMeyer_EnemyLoot;
+using EnemyLoot;
 
 
 namespace EnemyLoot.Patches
@@ -34,8 +34,8 @@ namespace EnemyLoot.Patches
                 return;
             }
 
-            EnemyLoot_SilasMeyer.EnemyLoot.Instance.mls.LogMessage("Creating Black Orb");
-            Item blackOrb = EnemyLoot_SilasMeyer.EnemyLoot.blackOrb;
+            EnemyLoot.Instance.mls.LogMessage("Creating Black Orb");
+            Item blackOrb = EnemyLoot.blackOrb;
 
             GameObject gameObject = UnityEngine.Object.Instantiate<GameObject>(blackOrb.spawnPrefab, __instance.transform.position + new Vector3(0f, 3f, 0f), Quaternion.identity);
             gameObject.GetComponentInChildren<GrabbableObject>().fallTime = 0f;
@@ -52,9 +52,9 @@ namespace EnemyLoot.Patches
             });
 
             AudioSource audioSource = gameObject.GetComponent<AudioSource>();
-            audioSource.clip = EnemyLoot_SilasMeyer.EnemyLoot.blackOrbSpawnSFX;
+            audioSource.clip = EnemyLoot.blackOrbSpawnSFX;
             audioSource.Play();
-            EnemyLoot_SilasMeyer.EnemyLoot.Instance.mls.LogMessage("Black Orb was created");
+            EnemyLoot.Instance.mls.LogMessage("Black Orb was created");
         }
     }
 }

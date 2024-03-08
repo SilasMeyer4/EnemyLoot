@@ -9,7 +9,8 @@ using BepInEx;
 using BepInEx.Logging;
 using System.Runtime.CompilerServices;
 using Unity.Netcode;
-using SilasMeyer_EnemyLoot;
+
+using EnemyLoot;
 
 
 namespace EnemyLoot.Patches
@@ -34,8 +35,8 @@ namespace EnemyLoot.Patches
                 return;
             }
 
-            EnemyLoot_SilasMeyer.EnemyLoot.Instance.mls.LogMessage("Creating White Orb");
-            Item whiteOrb = EnemyLoot_SilasMeyer.EnemyLoot.whiteOrb;
+            EnemyLoot.Instance.mls.LogMessage("Creating White Orb");
+            Item whiteOrb = EnemyLoot.whiteOrb;
 
             GameObject gameObject = UnityEngine.Object.Instantiate<GameObject>(whiteOrb.spawnPrefab, __instance.transform.position + new Vector3(0f, 3f, 0f), Quaternion.identity);
             gameObject.GetComponentInChildren<GrabbableObject>().fallTime = 0f;
@@ -50,7 +51,7 @@ namespace EnemyLoot.Patches
                 gameObject.GetComponent<GrabbableObject>().scrapValue
             });
 
-            EnemyLoot_SilasMeyer.EnemyLoot.Instance.mls.LogMessage("White Orb was created");
+            EnemyLoot.Instance.mls.LogMessage("White Orb was created");
         }
     }
 }
