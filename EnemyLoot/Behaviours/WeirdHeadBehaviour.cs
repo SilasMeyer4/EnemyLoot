@@ -1,5 +1,4 @@
-﻿using CSync.Lib;
-using GameNetcodeStuff;
+﻿using GameNetcodeStuff;
 using HarmonyLib;
 using LethalLib.Modules;
 using System;
@@ -313,8 +312,8 @@ namespace EnemyLoot.Behaviours
       private static IEnumerator PlayHeadSound()
       {
          OnCooldown = true;
-         int minCD = 10;
-         int maxCD = 20;
+         int minCD = 60;
+         int maxCD = 120;
 
          EnemyLoot.Instance.mls.LogMessage("In Sound function");
 

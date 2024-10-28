@@ -28,40 +28,40 @@ namespace EnemyLoot
 
             TerminalNode node = ScriptableObject.CreateInstance<TerminalNode>();
             node.clearPreviousText = true;
-            node.displayText = "Info test zu orb";
-            Items.RegisterShopItem(EnemyLoot.blackOrb, null, null, node, 0);
+            node.displayText = "Can be used for teleportation";
+            Items.RegisterShopItem(EnemyLoot.blackOrb, null, null, node, 800);
             //800
 
 
 
             TerminalNode node2 = ScriptableObject.CreateInstance<TerminalNode>();
             node2.clearPreviousText = true;
-            node2.displayText = "Info test zu orb";
-            Items.RegisterShopItem(EnemyLoot.whiteOrb, null, null, node2, 0);
+            node2.displayText = "Can be used to heal yourself";
+            Items.RegisterShopItem(EnemyLoot.whiteOrb, null, null, node2, 200);
             //100
 
             TerminalNode node3 = ScriptableObject.CreateInstance<TerminalNode>();
             node3.clearPreviousText = true;
-            node3.displayText = "Info test zu orb";
-            Items.RegisterShopItem(EnemyLoot.orangeOrb, null, null, node3, 0);
+            node3.displayText = "Gives unlimited stamina and more walk speed";
+            Items.RegisterShopItem(EnemyLoot.orangeOrb, null, null, node3, 300);
             //200
 
             TerminalNode node4 = ScriptableObject.CreateInstance<TerminalNode>();
             node4.clearPreviousText = true;
-            node4.displayText = "Info test für Spoon";
-            Items.RegisterShopItem(EnemyLoot.Spoon, null, null, node4, 0);
+            node4.displayText = "Gives you semi-inviciblity";
+            Items.RegisterShopItem(EnemyLoot.Spoon, null, null, node4, 900);
             //200
 
             TerminalNode node5 = ScriptableObject.CreateInstance<TerminalNode>();
             node5.clearPreviousText = true;
-            node5.displayText = "Info test für Head";
-            Items.RegisterShopItem(EnemyLoot.WeirdHead, null, null, node5, 0);
+            node5.displayText = "@!&*@^*";
+            Items.RegisterShopItem(EnemyLoot.WeirdHead, null, null, node5, 800);
             //200
 
             TerminalNode node6 = ScriptableObject.CreateInstance<TerminalNode>();
             node6.clearPreviousText = true;
-            node6.displayText = "Info test für Head";
-            Items.RegisterShopItem(EnemyLoot.guiltyGearCase, null, null, node6, 0);
+            node6.displayText = "THE TOWN INSIDE ME";
+            Items.RegisterShopItem(EnemyLoot.guiltyGearCase, null, null, node6, 50);
             //200
          }
       }

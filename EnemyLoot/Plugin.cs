@@ -9,8 +9,6 @@ using LethalLib.Modules;
 using EnemyLoot.Patches;
 using EnemyLoot.Behaviours;
 using System.Runtime.Serialization;
-using CSync.Lib;
-using CSync.Extensions;
 using System.Runtime.CompilerServices;
 using UnityEngine.Assertions;
 using System.Collections.Generic;
@@ -296,7 +294,7 @@ namespace EnemyLoot
 
          cfg.SaveOnConfigSet = false;
 
-         areItemsInShop = cfg.Bind("1. General", "Activate Items in shop", true, "Adds the new items to the shop");
+         areItemsInShop = cfg.Bind("1. General", "Activate Items in shop", false, "Adds the new items to the shop");
          SpiderDropSpiderEgg = cfg.Bind("2. Drops", "Drop Spider Egg", true, "Spider drops egg on death");
          MaskedDropMask = cfg.Bind("2. Drops", "Drop Mask", true, "Masked drops mask on death");
          HoarderDropGuiltyGear = cfg.Bind("2. Drops", "Drop Guilty Gear Case", true, "Hoarder Bug can drop Guilty Gear Strive Case");
