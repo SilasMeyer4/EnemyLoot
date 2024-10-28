@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace EnemyLoot.Behaviours
 {
-    internal class GuiltyGearCaseBehaviour : PhysicsProp
+    internal class GuiltyGearCaseBehaviour : GrabbableObject
     {
 
         private bool isTimerRunning = false;
@@ -33,8 +33,9 @@ namespace EnemyLoot.Behaviours
         {
             isTimerRunning = true;
             AudioSource audioSource = gameObject.GetComponent<AudioSource>();
-            audioSource.clip = EnemyLoot.guiltyGearSFX;
-            audioSource.Play();
+            //audioSource.clip = EnemyLoot.guiltyGearSFX;
+            //audioSource.Play();
+            audioSource.PlayOneShot(EnemyLoot.guiltyGearSFX);
 
             yield return new WaitForSeconds(3.5f);
 
@@ -43,5 +44,17 @@ namespace EnemyLoot.Behaviours
 
         }
 
-    }
+      public override void SetControlTipsForItem()
+      {
+         string[] toolTips =
+            {
+            "Drop Guilty Gear Case : [G]",
+            "Play music : [LMB]"
+            };
+
+         HUDManager.Instance.ChangeControlTipMultiple(toolTips);
+      }
+
+      
+   }
 }

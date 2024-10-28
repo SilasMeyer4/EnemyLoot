@@ -9,15 +9,15 @@ using UnityEngine;
 
 namespace EnemyLoot.Patches
 {
-   [HarmonyPatch(typeof(BaboonBirdAI))]
-   internal class HawkDrop
-    {
+   [HarmonyPatch(typeof(ButlerEnemyAI))]
+   internal class ButlerDrop
+   {
       [HarmonyPatch("KillEnemy")]
       [HarmonyPostfix]
-      static void Patch(BaboonBirdAI __instance)
+      static void Patch(ButlerEnemyAI __instance)
       {
 
-         if (!EnemyLoot.Config.ThumperDropOrangeOrb.Value)
+         if (!EnemyLoot.Config.ButlerDropSpoon.Value)
          {
             return;
          }
@@ -27,12 +27,12 @@ namespace EnemyLoot.Patches
             return;
          }
 
-         EnemyLoot.Instance.mls.LogMessage("Creating feather");
-         Item orangeOrb = EnemyLoot.orangeOrb;
+         EnemyLoot.Instance.mls.LogMessage("Creating Spoon");
+         Item Spoon = EnemyLoot.Spoon;
 
-         GameObject gameObject = UnityEngine.Object.Instantiate<GameObject>(orangeOrb.spawnPrefab, __instance.transform.position + new Vector3(0f, 3f, 0f), Quaternion.identity);
+         GameObject gameObject = UnityEngine.Object.Instantiate<GameObject>(Spoon.spawnPrefab, __instance.transform.position + new Vector3(0f, 3f, 0f), Quaternion.identity);
          gameObject.GetComponentInChildren<GrabbableObject>().fallTime = 0f;
-         int scrapValue = new System.Random().Next(90, 120);
+         int scrapValue = new System.Random().Next(333, 444);
          gameObject.GetComponentInChildren<GrabbableObject>().SetScrapValue(scrapValue);
          gameObject.GetComponentInChildren<NetworkObject>().Spawn(false);
          RoundManager.Instance.SyncScrapValuesClientRpc(new NetworkObjectReference[]
@@ -43,7 +43,7 @@ namespace EnemyLoot.Patches
                 gameObject.GetComponent<GrabbableObject>().scrapValue
          });
 
-         EnemyLoot.Instance.mls.LogMessage("feather was created");
+         EnemyLoot.Instance.mls.LogMessage("Spoon was created");
       }
    }
 }

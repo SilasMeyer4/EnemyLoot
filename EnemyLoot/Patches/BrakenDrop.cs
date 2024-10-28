@@ -24,7 +24,7 @@ namespace EnemyLoot.Patches
         static void Patch(FlowermanAI __instance)
         {
 
-            if (!Config.Instance.BrackenDropBlackOrb.Value)
+            if (!EnemyLoot.Config.BrackenDropBlackOrb.Value)
             {
                 return;
             }

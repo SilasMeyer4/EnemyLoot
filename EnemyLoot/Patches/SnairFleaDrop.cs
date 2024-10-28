@@ -25,7 +25,7 @@ namespace EnemyLoot.Patches
         static void Patch(CentipedeAI __instance)
         {
 
-            if (!Config.Instance.SnareFleaDropWhiteOrb.Value)
+            if (!EnemyLoot.Config.SnareFleaDropWhiteOrb.Value)
             {
                 return;
             }

@@ -24,7 +24,7 @@ namespace EnemyLoot.Patches
         static void Patch(SandSpiderAI __instance)
         {
 
-            if (!Config.Instance.SpiderDropSpiderEgg.Value)
+            if (!EnemyLoot.Config.SpiderDropSpiderEgg.Value)
             {
                 return;
             }
@@ -52,15 +52,6 @@ namespace EnemyLoot.Patches
             });
 
             EnemyLoot.Instance.mls.LogMessage("Egg was spawned");
-
-
-
-            
-
         }
-
-
-
-
     }
 }

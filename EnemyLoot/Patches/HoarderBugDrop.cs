@@ -19,13 +19,12 @@ namespace EnemyLoot.Patches
     internal class HoarderBugDrop
     {
 
-
         [HarmonyPatch("KillEnemy")]
         [HarmonyPostfix]
         static void Patch(HoarderBugAI __instance)
         {
 
-            if (!Config.Instance.HoarderDropGuiltyGear.Value)
+            if (!EnemyLoot.Config.HoarderDropGuiltyGear.Value)
             {
                 return;
             }
@@ -35,10 +34,9 @@ namespace EnemyLoot.Patches
                 return;
             }
 
-
             int spawnValue = new System.Random().Next(1, 101);
             
-            if (spawnValue <= Config.Instance.GuiltyGearSpawnRate.Value)
+            if (spawnValue <= EnemyLoot.Config.GuiltyGearSpawnRate.Value)
             {
                 EnemyLoot.Instance.mls.LogMessage("Try spawning Guilty Gear Case");
                 Item itemCase = EnemyLoot.guiltyGearCase;
@@ -59,18 +57,7 @@ namespace EnemyLoot.Patches
 
                 EnemyLoot.Instance.mls.LogMessage("Guilty Gear Case was spawned");
             }
-
-          
-
-
-
-
-
         }
-
-
-
-
     }
 }
 

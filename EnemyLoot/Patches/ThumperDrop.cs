@@ -1,15 +1,6 @@
 ﻿using HarmonyLib;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
-using BepInEx;
-using BepInEx.Logging;
-using System.Runtime.CompilerServices;
 using Unity.Netcode;
-using EnemyLoot;
 
 
 namespace EnemyLoot.Patches
@@ -24,7 +15,7 @@ namespace EnemyLoot.Patches
         static void Patch(CrawlerAI __instance)
         {
 
-            if (!Config.Instance.ThumperDropOrangeOrb.Value)
+            if (!EnemyLoot.Config.ThumperDropOrangeOrb.Value)
             {
                 return;
             }

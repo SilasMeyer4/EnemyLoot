@@ -35,7 +35,7 @@ namespace EnemyLoot.Patches
                 return;
             }
 
-            if (Config.Instance.MaskedDropMask.Value)
+            if (EnemyLoot.Config.MaskedDropMask.Value)
             {
                 return;
             }
