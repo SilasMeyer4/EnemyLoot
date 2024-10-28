@@ -18,16 +18,16 @@ using System.Collections.Generic;
 namespace EnemyLoot
 {
    [BepInPlugin(modGUID, modName, modVersion)]
-   [BepInDependency("com.sigurd.csync", "5.0.1")]
+   //[BepInDependency("com.sigurd.csync", "5.0.1")]
    public class EnemyLoot : BaseUnityPlugin
    {
       public const string modGUID = "SilasMeyer.EnemyLoot";
       public const string modName = "EnemyLoot";
       public const string modVersion = "0.3.0";
 
-        private readonly Harmony harmony = new Harmony(modGUID);
+      private readonly Harmony harmony = new Harmony(modGUID);
 
-        public static EnemyLoot Instance;
+      public static EnemyLoot Instance;
 
       public static new MyConfig Config;
 
@@ -278,18 +278,18 @@ namespace EnemyLoot
    public class MyConfig
    {
 
-      public ConfigEntry<float> DebugLevel { get; private set; }
+      public readonly ConfigEntry<float> DebugLevel;
 
-      public ConfigEntry<bool> areItemsInShop;
+      public readonly ConfigEntry<bool> areItemsInShop;
 
-      public ConfigEntry<bool> SpiderDropSpiderEgg { get; private set; }
-      public ConfigEntry<bool> MaskedDropMask { get; private set; }
-      public ConfigEntry<bool> HoarderDropGuiltyGear { get; private set; }
-      public ConfigEntry<bool> BrackenDropBlackOrb { get; private set; }
-      public ConfigEntry<bool> SnareFleaDropWhiteOrb { get; private set; }
-      public ConfigEntry<bool> ThumperDropOrangeOrb { get; private set; }
-      public ConfigEntry<bool> ButlerDropSpoon { get; private set; }
-      public ConfigEntry<int> GuiltyGearSpawnRate { get; private set; }
+      public readonly ConfigEntry<bool> SpiderDropSpiderEgg;
+      public readonly ConfigEntry<bool> MaskedDropMask;
+      public readonly ConfigEntry<bool> HoarderDropGuiltyGear;
+      public readonly ConfigEntry<bool> BrackenDropBlackOrb;  
+      public readonly ConfigEntry<bool> SnareFleaDropWhiteOrb;
+      public readonly ConfigEntry<bool> ThumperDropOrangeOrb;
+      public readonly ConfigEntry<bool> ButlerDropSpoon;
+      public readonly ConfigEntry<int> GuiltyGearSpawnRate;
 
       public MyConfig(ConfigFile cfg)
       {
