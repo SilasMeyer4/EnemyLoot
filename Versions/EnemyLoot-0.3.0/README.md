@@ -38,6 +38,6 @@ Not all enemies drop loot yet.
 
 ## Contact
 
-If you find a bug please write me through the github repo [https://github.com/SilasMeyer4/EnemyLoot]. 
+If you find a bug please write me through the github repo [https://github.com/SilasMeyer4/EnemyLoot] or write me a mail at meyer-si4@web.de. 
 
 
