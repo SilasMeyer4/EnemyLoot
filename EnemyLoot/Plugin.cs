@@ -25,9 +25,9 @@ namespace EnemyLoot
       public const string modName = "EnemyLoot";
       public const string modVersion = "0.3.0";
 
-      private readonly Harmony harmony = new Harmony(modGUID);
+        private readonly Harmony harmony = new Harmony(modGUID);
 
-      public static EnemyLoot Instance;
+        public static EnemyLoot Instance;
 
       public static new MyConfig Config;
 
