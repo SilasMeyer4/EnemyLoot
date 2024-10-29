@@ -63,6 +63,12 @@ namespace EnemyLoot
             node6.displayText = "THE TOWN INSIDE ME";
             Items.RegisterShopItem(EnemyLoot.guiltyGearCase, null, null, node6, 50);
             //200
+
+            //TerminalNode node7 = ScriptableObject.CreateInstance<TerminalNode>();
+            //node7.clearPreviousText = true;
+            //node7.displayText = "An Egg";
+            //Items.RegisterShopItem(EnemyLoot.SnakeEgg, null, null, node7, 0);
+            
          }
       }
    }

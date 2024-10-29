@@ -77,6 +77,11 @@ namespace EnemyLoot
 
          Config = new MyConfig(base.Config);
 
+         mls = BepInEx.Logging.Logger.CreateLogSource(modGUID);
+         mls.LogMessage("Loading " + modName);
+
+
+
          //Loads Assets
 
          string assetDir = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "enemyloot");
@@ -213,7 +218,7 @@ namespace EnemyLoot
 
          //Logger
 
-         mls = BepInEx.Logging.Logger.CreateLogSource(modGUID);
+         
          mls.LogMessage(modGUID + " has loaded succesfully.");
 
          //Patching
@@ -227,12 +232,14 @@ namespace EnemyLoot
          harmony.PatchAll(typeof(SnareFleaDrop));
          harmony.PatchAll(typeof(BrakenDrop));
          harmony.PatchAll(typeof(ThumperDrop));
-         harmony.PatchAll(typeof(SnakeDrop));
+         
          harmony.PatchAll(typeof(SpoonPatch));
          harmony.PatchAll(typeof(ButlerDrop));
          harmony.PatchAll(typeof(OrangeOrbSprintMeterPatch));
          harmony.PatchAll(typeof(WeirdHeadSoundPatch));
+         harmony.PatchAll(typeof(ManeaterDrop));
          harmony.PatchAll(typeof(PlayerTargetablePatch));
+         //harmony.PatchAll(typeof(SnakeDrop));
          //harmony.PatchAll(typeof(PlayerInvinciblePatch));   
       }
    }
