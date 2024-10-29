@@ -1,0 +1,11 @@
+{
+    "name": "EnemyLoot",
+    "version_number": "0.3.2",
+    "website_url": "https://github.com/SilasMeyer4/EnemyLoot",
+    "description": "Killed enemies drop loot",
+    "dependencies": [
+	"BepInEx-BepInExPack-5.4.2100",
+        "Evaisa-LethalLib-0.16.1",
+	"Zaggy1024-PathfindingLagFix-1.4.0"
+    ]
+}
