@@ -1,5 +1,6 @@
 ﻿using GameNetcodeStuff;
 using HarmonyLib;
+using LethalLib.Modules;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,6 +8,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Windows;
 
@@ -20,7 +22,21 @@ namespace EnemyLoot.Behaviours
       private AudioSource _audioSource;
       private PlayerControllerB _player;
       private int _healthBefore;
-      public bool _isHoldingSpoon;
+      private bool _isSpoonActive = false;
+      private bool _isSpoonBeingHeld = false;
+
+      public bool IsSpoonActive
+      {
+         get { return _isSpoonActive; }
+         set { _isSpoonActive = value; }
+      }
+
+      
+      public bool IsSpoonBeingHeld
+      {
+         get { return _isSpoonBeingHeld; }
+         set { _isSpoonBeingHeld = value; }
+      }
 
       //TODO need to fix icon maybe and add holdingPlayer usage. 
 
@@ -30,8 +46,8 @@ namespace EnemyLoot.Behaviours
          base.ItemActivate(used, buttonDown);
          if (buttonDown)
          {
+       
             _player = playerHeldBy;
-            SpoonPatch.IsPlayerHoldingSpoon = true;
 
             if (!_isTimerRunning)
             {
@@ -41,53 +57,66 @@ namespace EnemyLoot.Behaviours
             else
             {
                _audioSource = gameObject.GetComponent<AudioSource>();
-               _audioSource.clip = EnemyLoot.SpoonCDSFX; ;
+               _audioSource.clip = EnemyLoot.SpoonCDSFX;
                _audioSource.Play();
             }
          }
       }
 
-      //public override void PocketItem()
-      //{
-      //   base.PocketItem();
-      //   SpoonPatch.IsPlayerHoldingSpoon = false;
-      //   _player.health = _healthBefore;
-      //   HUDManager.Instance.UpdateHealthUI(_player.health, false);
-      //}
-
-      //public override void DiscardItem()
-      //{
-      //   base.DiscardItem();
-      //   if (SpoonPatch.IsSpoonActive)
-      //   {
-      //      _healthBefore = _player.health;
-      //      _player.health = 100;
-      //      HUDManager.Instance.UpdateHealthUI(_player.health, false);
-      //   }
-      //}
-
       public override void EquipItem()
       {
          base.EquipItem();
-         SpoonPatch.IsPlayerHoldingSpoon = true;
-         if (SpoonPatch.IsSpoonActive)
+         _isSpoonBeingHeld = true;
+
+         if (IsSpoonActive)
          {
             _healthBefore = _player.health;
             _player.health = 100;
             HUDManager.Instance.UpdateHealthUI(_player.health, false);
          }
+      }
 
+      public override void DiscardItem()
+      {
+         base.DiscardItem();
+         this._isSpoonBeingHeld = false;
+
+         if (IsSpoonActive)
+         {
+            _player.health = _healthBefore;
+            HUDManager.Instance.UpdateHealthUI(_player.health, false);
+         }
+
+      }
+
+      public override void PocketItem()
+      {
+         base.PocketItem();
+         _isSpoonBeingHeld = false;
+         if (IsSpoonActive)
+         {
+            _player.health = _healthBefore;
+            HUDManager.Instance.UpdateHealthUI(_player.health, false);
+         }
+
+      }
+
+      public override void OnDestroy()
+      {
+         base.OnDestroy();
+         _isSpoonBeingHeld = false;
       }
 
       public override void SetControlTipsForItem()
       {
+         EnemyLoot.Instance.mls.LogInfo("Setting Controltips");
          string[] toolTips =
             {
             "Drop Spoon : [G]",
             "Activate Spoon : [LMB]"
             };
 
-         if (SpoonPatch.IsSpoonActive)
+         if (_isSpoonActive)
          {
             toolTips[1] = "Spoon is active";
          } 
@@ -116,11 +145,10 @@ namespace EnemyLoot.Behaviours
 
          if (_player != null)
          {
-            SpoonPatch.IsSpoonActive = true;
-            SpoonPatch.Player = _player;
-            SpoonPatch.IsPlayerHoldingSpoon = true;
+            _isSpoonActive = true;
             _player.health = 100;
-            EnemyLoot.ScriptSpoon.itemProperties.itemIcon = EnemyLoot.IconActive;
+            HUDManager.Instance.UpdateHealthUI(_player.health, false);
+            //EnemyLoot.ScriptSpoon.itemProperties.itemIcon = EnemyLoot.IconActive;
             SetControlTipsForItem();
          }
 
@@ -133,11 +161,10 @@ namespace EnemyLoot.Behaviours
 
          if (_player != null)
          {
-            SpoonPatch.IsSpoonActive = false;
-            SpoonPatch.Player = null;
+            _isSpoonActive = false;
             _player.health = _healthBefore;
             HUDManager.Instance.UpdateHealthUI(_player.health, false);
-            EnemyLoot.ScriptSpoon.itemProperties.itemIcon = EnemyLoot.IconCD;
+           // EnemyLoot.ScriptSpoon.itemProperties.itemIcon = EnemyLoot.IconCD;
             SetControlTipsForItem();
          }
 
@@ -145,7 +172,7 @@ namespace EnemyLoot.Behaviours
 
          _isTimerRunning = false;
          SetControlTipsForItem();
-         EnemyLoot.ScriptSpoon.itemProperties.itemIcon = EnemyLoot.IconBase;
+         //EnemyLoot.ScriptSpoon.itemProperties.itemIcon = EnemyLoot.IconBase;
      
 
       }
@@ -153,23 +180,18 @@ namespace EnemyLoot.Behaviours
    }
 
    [HarmonyPatch(typeof(PlayerControllerB))]
-   internal class SpoonPatch
+   internal class SpoonDamagePatch
    {
-      public static bool IsSpoonActive = false;
-      public static PlayerControllerB Player = null;
-      public static bool IsPlayerHoldingSpoon = false;
 
       [HarmonyPatch("DamagePlayer")]
       [HarmonyPostfix]
-      static void Patch(int damageNumber)
+      static void Patch(PlayerControllerB __instance, int damageNumber)
       {
-         if (IsSpoonActive && IsPlayerHoldingSpoon && Player != null)
+         if (__instance != null && __instance.currentlyHeldObjectServer is GrabbableObject heldItem && (heldItem as SpoonBehaviour).IsSpoonActive)
          {
-            Player.health += (damageNumber);
-            HUDManager.Instance.UpdateHealthUI(Player.health, false);
+            __instance.health += (damageNumber);
+            HUDManager.Instance.UpdateHealthUI(__instance.health, false);
          }
       }
    }
-
-
 }
