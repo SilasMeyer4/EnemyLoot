@@ -1,4 +1,5 @@
-# EnemyLoot for Lethal Company: Solution and Data Files
+# EnemyLoot - A Mod for Lethal Company
+[https://thunderstore.io/c/lethal-company/p/N4ghtwolf/EnemyLoot/]
 **adds loot for killing enemies.** 
 
 Not all enemies drop loot yet. 
@@ -9,9 +10,11 @@ Not all enemies drop loot yet.
 - Bunker Spider 
 - Masked Enemy
 - Hoarding Bug
-- Snare Flea (new!)
-- Bracken (new!)
-- Thumper (new!)
+- Snare Flea
+- Bracken
+- Thumper
+- Maneater
+- Butler
 
 ## New Items
 ### Spider Egg
@@ -19,11 +22,15 @@ Not all enemies drop loot yet.
 ### Guilty Gear Strive Case 
 - Can be dropped by killing a Hoarding Bug.
 ### White Orb
-- Dropped by killing a Snare Flea. Can be used to heal the player
+- Dropped by killing a Snare Flea. Can be used to heal the player.
 ### Black Orb
 - Dropped by killing a Bracken. Can be used to teleport back into the ship and also back into the facility, to the position the orb was first used.
 ### Orange Orb
-- Dropped by killing a Thumper. Can be used to increase movementspeed
+- Dropped by killing a Thumper. Can be used to increase movementspeed.
+### Spoon
+- Dropped by killing a Butler. Can be used to receive semi-invincibility.
+### Weird Head
+- Dropped by Maneater. 
 
 ## Installation (manual)
 1. Extract the archive into a folder.
@@ -32,4 +39,6 @@ Not all enemies drop loot yet.
 
 ## Contact
 
-If you find a bug you, can contact me under my mail meyer-si4@web.de.
+If you find a bug please write me through the github repo [https://github.com/SilasMeyer4/EnemyLoot] or write me a mail at meyer-si4@web.de. 
+
+
