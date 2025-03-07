@@ -21,7 +21,7 @@ namespace EnemyLoot
    {
       public const string modGUID = "SilasMeyer.EnemyLoot";
       public const string modName = "EnemyLoot";
-      public const string modVersion = "0.3.2";
+      public const string modVersion = "0.3.3";
 
       private readonly Harmony harmony = new Harmony(modGUID);
 
@@ -212,8 +212,6 @@ namespace EnemyLoot
          Utilities.FixMixerGroups(WeirdHead.spawnPrefab);
          Items.RegisterScrap(WeirdHead, 0, Levels.LevelTypes.All);
 
-         //Adds Items to the shop for Host
-
 
 
          //Logger
@@ -233,14 +231,16 @@ namespace EnemyLoot
          harmony.PatchAll(typeof(BrakenDrop));
          harmony.PatchAll(typeof(ThumperDrop));
          
-         harmony.PatchAll(typeof(SpoonPatch));
+         harmony.PatchAll(typeof(SpoonDamagePatch));
+
+
          harmony.PatchAll(typeof(ButlerDrop));
          harmony.PatchAll(typeof(OrangeOrbSprintMeterPatch));
          harmony.PatchAll(typeof(WeirdHeadSoundPatch));
          harmony.PatchAll(typeof(ManeaterDrop));
          harmony.PatchAll(typeof(PlayerTargetablePatch));
          //harmony.PatchAll(typeof(SnakeDrop));
-         //harmony.PatchAll(typeof(PlayerInvinciblePatch));   
+         //harmony.PatchAll(typeof(PlayerInvinciblePatch));
       }
    }
 
