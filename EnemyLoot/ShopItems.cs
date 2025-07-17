@@ -1,7 +1,7 @@
 ﻿using GameNetcodeStuff;
 using HarmonyLib;
-using UnityEngine;
 using LethalLib.Modules;
+using UnityEngine;
 
 
 namespace EnemyLoot
@@ -31,8 +31,6 @@ namespace EnemyLoot
             node.displayText = "Can be used for teleportation";
             Items.RegisterShopItem(EnemyLoot.blackOrb, null, null, node, 800);
             //800
-
-
 
             TerminalNode node2 = ScriptableObject.CreateInstance<TerminalNode>();
             node2.clearPreviousText = true;
@@ -68,7 +66,12 @@ namespace EnemyLoot
             //node7.clearPreviousText = true;
             //node7.displayText = "An Egg";
             //Items.RegisterShopItem(EnemyLoot.SnakeEgg, null, null, node7, 0);
-            
+
+            // TerminalNode node8 = ScriptableObject.CreateInstance<TerminalNode>();
+            // node8.clearPreviousText = true;
+            // node8.displayText = "Egg for testing";
+            // Items.RegisterShopItem(EnemyLoot.spiderEgg, null, null, node8, 0);
+
          }
       }
    }

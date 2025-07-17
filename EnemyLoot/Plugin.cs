@@ -1,17 +1,14 @@
-﻿using BepInEx.Configuration;
+﻿using BepInEx;
+using BepInEx.Configuration;
 using BepInEx.Logging;
-using BepInEx;
-using HarmonyLib;
-using System.Reflection;
-using System.IO;
-using UnityEngine;
-using LethalLib.Modules;
-using EnemyLoot.Patches;
 using EnemyLoot.Behaviours;
-using System.Runtime.Serialization;
-using System.Runtime.CompilerServices;
-using UnityEngine.Assertions;
+using EnemyLoot.Patches;
+using HarmonyLib;
+using LethalLib.Modules;
 using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
+using UnityEngine;
 
 namespace EnemyLoot
 {
@@ -99,6 +96,8 @@ namespace EnemyLoot
          spiderEgg = bundle.LoadAsset<Item>("Assets/Items/SpiderEggItem.asset");
          spiderEgg.positionOffset = new Vector3(-0.2f, 0, 0.3f);
          spiderEgg.rotationOffset = new Vector3(-90, 0, -10);
+         PhysicsProp spiderEggPysics = spiderEgg.spawnPrefab.GetComponent<PhysicsProp>();
+         spiderEggPysics.grabbableToEnemies = true;
          NetworkPrefabs.RegisterNetworkPrefab(spiderEgg.spawnPrefab);
          Utilities.FixMixerGroups(spiderEgg.spawnPrefab);
          Items.RegisterScrap(spiderEgg, 0, Levels.LevelTypes.All);
@@ -216,7 +215,7 @@ namespace EnemyLoot
 
          //Logger
 
-         
+
          mls.LogMessage(modGUID + " has loaded succesfully.");
 
          //Patching
@@ -230,7 +229,7 @@ namespace EnemyLoot
          harmony.PatchAll(typeof(SnareFleaDrop));
          harmony.PatchAll(typeof(BrakenDrop));
          harmony.PatchAll(typeof(ThumperDrop));
-         
+
          harmony.PatchAll(typeof(SpoonDamagePatch));
 
 
@@ -290,7 +289,7 @@ namespace EnemyLoot
       public readonly ConfigEntry<bool> SpiderDropSpiderEgg;
       public readonly ConfigEntry<bool> MaskedDropMask;
       public readonly ConfigEntry<bool> HoarderDropGuiltyGear;
-      public readonly ConfigEntry<bool> BrackenDropBlackOrb;  
+      public readonly ConfigEntry<bool> BrackenDropBlackOrb;
       public readonly ConfigEntry<bool> SnareFleaDropWhiteOrb;
       public readonly ConfigEntry<bool> ThumperDropOrangeOrb;
       public readonly ConfigEntry<bool> ButlerDropSpoon;
