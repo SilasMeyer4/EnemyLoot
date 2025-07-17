@@ -18,7 +18,7 @@ namespace EnemyLoot
    {
       public const string modGUID = "SilasMeyer.EnemyLoot";
       public const string modName = "EnemyLoot";
-      public const string modVersion = "0.3.3";
+      public const string modVersion = "0.3.4";
 
       private readonly Harmony harmony = new Harmony(modGUID);
 
